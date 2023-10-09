@@ -1,9 +1,13 @@
 const express = require("express");
 const studentRoutes = require("./src/student/routes");
 const productRoutes = require("./src/products/routes");
+const cors = require("cors");
 
 const app = express();
-const port = 3000;
+
+app.use(cors());
+
+const port = 4000;
 
 app.use(express.json());
 
