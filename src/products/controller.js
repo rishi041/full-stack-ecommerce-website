@@ -1,22 +1,22 @@
 const pool = require("../../db");
 const queries = require("./queries");
 
-const getStudents = (req, res) => {
-  pool.query(queries.getStudents, (error, results) => {
+const getProducts = (req, res) => {
+  pool.query(queries.getProducts, (error, results) => {
     if (error) throw error;
     res.status(200).json(results.rows);
   });
 };
 
-const getStudentById = (req, res) => {
+const getProductById = (req, res) => {
   const id = parseInt(req.params.id);
-  pool.query(queries.getStudentById, [id], (error, results) => {
+  pool.query(queries.getProductById, [id], (error, results) => {
     if (error) throw error;
     res.status(200).json(results.rows);
   });
 };
 
-const addStudents = (req, res) => {
+const addProducts = (req, res) => {
   const { name, email, age, dob } = req.body;
 
   // check if email exists
@@ -28,7 +28,7 @@ const addStudents = (req, res) => {
 
     //add student to db
     pool.query(
-      queries.addStudents,
+      queries.addProducts,
       [name, email, age, dob],
       (error, results) => {
         if (error) throw error;
@@ -38,35 +38,35 @@ const addStudents = (req, res) => {
   });
 };
 
-const removeStudent = (req, res) => {
+const removeProduct = (req, res) => {
   const id = parseInt(req.params.id);
 
-  pool.query(queries.getStudentById, [id], (error, results) => {
+  pool.query(queries.getProductById, [id], (error, results) => {
     const noStudentFound = !results.rows.length;
     if (noStudentFound) {
       res.send("Student does not exist in the database.");
       return;
     }
 
-    pool.query(queries.removeStudent, [id], (error, results) => {
+    pool.query(queries.removeProduct, [id], (error, results) => {
       if (error) throw error;
       res.status(200).send("Student removed successfully");
     });
   });
 };
 
-const updateStudent = (req, res) => {
+const updateProduct = (req, res) => {
   const id = parseInt(req.params.id);
   const { name } = req.body;
 
-  pool.query(queries.getStudentById, [id], (error, results) => {
+  pool.query(queries.getProductById, [id], (error, results) => {
     const noStudentFound = !results.rows.length;
     if (noStudentFound) {
       res.send("Student does not exist in the database.");
       return;
     }
 
-    pool.query(queries.updateStudent, [name, id], (error, results) => {
+    pool.query(queries.updateProduct, [name, id], (error, results) => {
       if (error) throw error;
       res.status(200).send("Student updated successfully");
     });
@@ -74,9 +74,9 @@ const updateStudent = (req, res) => {
 };
 
 module.exports = {
-  getStudents,
-  getStudentById,
-  addStudents,
-  removeStudent,
-  updateStudent,
+  getProducts,
+  getProductById,
+  addProducts,
+  removeProduct,
+  updateProduct,
 };
