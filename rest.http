@@ -1,4 +1,16 @@
-GET http://localhost:4000/api/v1/products
+GET http://localhost:4000/api/v1/users
+
+###
+
+POST http://localhost:4000/api/v1/users
+content-type: application/json
+
+{
+   "username": "admin1",
+   "password": "admin1@gmail.com",
+   "email": "admin1@gmail.com",
+   "fullname": "admin1"
+}
 
 ###
 
