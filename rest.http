@@ -6,10 +6,10 @@ POST http://localhost:4000/api/v1/users
 content-type: application/json
 
 {
-   "username": "admin1",
-   "password": "admin1@gmail.com",
-   "email": "admin1@gmail.com",
-   "fullname": "admin1"
+   "username": "admin2",
+   "password": "admin2@gmail.com",
+   "email": "admin2@gmail.com",
+   "fullname": "admin2"
 }
 
 ###
