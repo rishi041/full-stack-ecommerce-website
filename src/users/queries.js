@@ -1,6 +1,6 @@
 const getAllUsersDb = "SELECT * FROM users";
 const getStudentById = "SELECT * FROM students WHERE id = $1";
-const checkEmailExists = "SELECT s FROM users s WHERE s.email = $1";
+const checkEmailExists = "SELECT * FROM users WHERE email = $1";
 const createUserDb = `INSERT INTO users(username, password, email, fullname) 
   VALUES($1, $2, $3, $4) 
   returning user_id, username, email, fullname, roles, address, city, state, country, created_at`;
