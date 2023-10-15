@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const pool = require("../../db");
 const queries = require("./queries");
 const salt = 10;
@@ -92,7 +93,14 @@ const userAuthentication = (req, res) => {
         (err, response) => {
           if (err) return res.json({ Error: "Password compare error" });
           if (response) {
-            return res.json({ Status: "Success" });
+            jwt.sign(
+              { email },
+              "secret-key",
+              { expiresIn: "300s" },
+              (err, token) => {
+                return res.json({ Status: "Success", token });
+              }
+            );
           } else {
             return res.json({ Error: "Password not matched" });
           }
@@ -104,6 +112,28 @@ const userAuthentication = (req, res) => {
   });
 };
 
+const verifyToken = (req, res) => {
+  jwt.verify(req.token, "secret-key", (err, authData) => {
+    if (err) {
+      res.send({ result: "invalid token" });
+    } else {
+      res.json({ message: "Success", authData });
+    }
+  });
+};
+
+function tokenExtractor(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    const token = bearer[1];
+    req.token = token;
+    next();
+  } else {
+    res.send({ result: "Token is not valid" });
+  }
+}
+
 module.exports = {
   getAllUsersDb,
   getStudentById,
@@ -111,4 +141,6 @@ module.exports = {
   deleteUserDb,
   updateUserDb,
   userAuthentication,
+  verifyToken,
+  tokenExtractor,
 };
